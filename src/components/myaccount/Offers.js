@@ -44,6 +44,7 @@ class Offers extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleRegister = this.handleRegister.bind(this);
+		this.handleMerchant = this.handleMerchant.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onChangeLName = this.onChangeLName.bind(this);
 		this.onChangeApt = this.onChangeApt.bind(this);
@@ -65,6 +66,7 @@ class Offers extends React.Component {
 		  successful: false,
 		  message: "",
 		  loading: false,
+		  loadingM: false,
 		  paymentCheck: false
 		};
 	  }
@@ -125,6 +127,36 @@ class Offers extends React.Component {
 		this.setState({
 		  zip: e.target.value
 		});
+	  }
+
+	  handleMerchant(){
+
+		this.setState({
+			loadingM: true
+		  });
+
+		  UserService.postMerchant().then(
+			  response => {
+				this.setState({
+					loadingM: false
+				  });
+				  console.log("success");
+				window.location = response.url;
+			  },
+			  error => {
+				const resMessage =
+				  (error.response &&
+					error.response.data &&
+					error.response.data.message) ||
+				  error.message ||
+				  error.toString();
+	  
+				this.setState({
+				  message: resMessage,
+				  loadingM: false
+				});
+			  }
+		  )
 	  }
 
 	  handleRegister(e) {
@@ -283,12 +315,19 @@ class Offers extends React.Component {
 				   <Row className="justify-content-md-center">
 					   <Col></Col>
 				   	<Col>
+					   <Form onSubmit={this.handleMerchant}
+									>
 				   <div className="row">
 								
 		                              <div className="col-12 pl-2 " style={{textAlign: 'center'}}>
-		                                 <Button className="btn pl-1 pr-1 btn-lg font-weight-normal btn-block" variant="info" type="submit">Setup Payouts on Stripe</Button>
+		                                 <Button className="btn pl-1 pr-1 btn-lg font-weight-normal btn-block" variant="info" type="submit">
+										 {this.state.loadingM && (
+										<span className="spinner-border spinner-border-sm"></span>
+										)}
+										 Setup Payouts on Stripe</Button>
 		                              </div>
 		                           </div>
+								   </Form>
 					</Col>
 					<Col></Col>
 					</Row>
