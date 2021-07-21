@@ -54,6 +54,7 @@ class Offers extends React.Component {
 	
 		this.state = {
 		  currentUser: AuthService.getCurrentUser(),
+		  userPayment: UserService.getUserPayment(),
 		  name: AuthService.getCurrentUser().user.name,
 		  lname: AuthService.getCurrentUser().user.lname,
 		  street: AuthService.getCurrentUser().user.info.street,
@@ -63,7 +64,8 @@ class Offers extends React.Component {
 		  zip: AuthService.getCurrentUser().user.info.zip,
 		  successful: false,
 		  message: "",
-		  loading: false
+		  loading: false,
+		  paymentCheck: false
 		};
 	  }
 
@@ -71,6 +73,16 @@ class Offers extends React.Component {
 	  componentDidMount() { 
 		// Custom
 		const user = AuthService.getCurrentUser();
+		const userPaymentCheck  = AuthService.getCurrentUser();
+		if(userPaymentCheck.status === null){
+			this.setState({
+				paymentCheck: false
+			  });
+		}else{
+			this.setState({
+				paymentCheck: userPaymentCheck
+			  });
+		}
 	}
 
 	onChangeName(e) {
@@ -260,6 +272,7 @@ class Offers extends React.Component {
 				</div>
 				<span>&nbsp;&nbsp;</span>
 				<span>&nbsp;&nbsp;</span>
+				{this.state.paymentCheck && (
 				<div className='p-4 bg-white pb-2 shadow-sm'>
 				<Row>
 	               <Col md={12}>
@@ -285,6 +298,7 @@ class Offers extends React.Component {
 		                  </Alert>
 	            
 			    </div>
+				)}
 		    </>
     	);
     }

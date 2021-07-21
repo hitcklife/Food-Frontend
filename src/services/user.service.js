@@ -12,6 +12,9 @@ class UserService {
     return axios.get(API_URL + 'user', { headers: authHeader() });
   }
 
+  getUserPayment() {
+    return axios.get(API_URL + 'payment/account/merchant/check', { headers: authHeader() });
+  }
 
   update(name, lname, street, apt, city, state, zip){
     return axios.post(API_URL + "auth/update", {

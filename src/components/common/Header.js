@@ -96,7 +96,7 @@ class Header extends React.Component {
 			            	title={
 			            		<DropDownTitle 
 			            			className='d-inline-block' 
-			            			image="img/user/4.png"
+			            			image={"https://backend.hitcklife.com/storage/" + currentUser.user.info.avatar}
 			            			imageAlt='user'
 			            			imageClass="nav-osahan-pic rounded-pill"
 			            			title='My Account'
