@@ -1,12 +1,8 @@
 import React from 'react';
 import {Row,Col,Form,Button,Alert} from 'react-bootstrap';
-import CouponCard from '../common/CouponCard';
 import { isEmail } from "validator";
 import AuthService from "../../services/auth.service";
 import UserService from "../../services/user.service";
-import Icofont from 'react-icofont';
-import {Link} from 'react-router-dom';
-import FontAwesome from '../common/FontAwesome';
 
 
 const required = value => {
@@ -55,7 +51,7 @@ class Offers extends React.Component {
 	
 		this.state = {
 		  currentUser: AuthService.getCurrentUser(),
-		  userPayment: UserService.getUserPayment(),
+		  userPayment: null,
 		  name: AuthService.getCurrentUser().user.name,
 		  lname: AuthService.getCurrentUser().user.lname,
 		  street: AuthService.getCurrentUser().user.info.street,
@@ -65,6 +61,7 @@ class Offers extends React.Component {
 		  zip: AuthService.getCurrentUser().user.info.zip,
 		  successful: false,
 		  message: "",
+		  messageM: "",
 		  loading: false,
 		  loadingM: false,
 		  paymentCheck: false
@@ -75,16 +72,24 @@ class Offers extends React.Component {
 	  componentDidMount() { 
 		// Custom
 		const user = AuthService.getCurrentUser();
-		const userPaymentCheck  = AuthService.getCurrentUser();
-		if(userPaymentCheck.status === null){
-			this.setState({
-				paymentCheck: false
-			  });
-		}else{
-			this.setState({
-				paymentCheck: userPaymentCheck
-			  });
+		this.getUserPay().then(result => this.setState({
+			userPayment: result.data
 		}
+		))
+		// const userPaymentCheck  = 
+		// if(userPaymentCheck.status === null){
+		// 	this.setState({
+		// 		paymentCheck: false
+		// 	  });
+		// }else{
+		// 	this.setState({
+		// 		paymentCheck: userPaymentCheck
+		// 	  });
+		// }
+	}
+
+	getUserPay(){
+		return UserService.getUserPayment();
 	}
 
 	onChangeName(e) {
@@ -129,7 +134,8 @@ class Offers extends React.Component {
 		});
 	  }
 
-	  handleMerchant(){
+	  handleMerchant(e){
+		e.preventDefault();
 
 		this.setState({
 			loadingM: true
@@ -138,10 +144,12 @@ class Offers extends React.Component {
 		  UserService.postMerchant().then(
 			  response => {
 				this.setState({
-					loadingM: false
+					loadingM: false,
+					messageM: "Payment has been created!",
+					successful: true
 				  });
-				  console.log("success");
-				window.location = response.url;
+				  console.log(response.data);
+				window.location = response.data.url;
 			  },
 			  error => {
 				const resMessage =
@@ -152,8 +160,9 @@ class Offers extends React.Component {
 				  error.toString();
 	  
 				this.setState({
-				  message: resMessage,
-				  loadingM: false
+				  messageM: resMessage,
+				  loadingM: false,
+				  successful: false
 				});
 			  }
 		  )
@@ -203,6 +212,7 @@ class Offers extends React.Component {
 		  );
 	  }
 	render() {
+		const { userPayment } = this.state;
     	return (
     		<>
     		    <div className='p-4 bg-white shadow-sm'>
@@ -304,7 +314,7 @@ class Offers extends React.Component {
 				</div>
 				<span>&nbsp;&nbsp;</span>
 				<span>&nbsp;&nbsp;</span>
-				{this.state.paymentCheck && (
+				{!userPayment ? (
 				<div className='p-4 bg-white pb-2 shadow-sm'>
 				<Row>
 	               <Col md={12}>
@@ -324,19 +334,63 @@ class Offers extends React.Component {
 										 {this.state.loadingM && (
 										<span className="spinner-border spinner-border-sm"></span>
 										)}
-										 Setup Payouts on Stripe</Button>
+										 Setup Payouts</Button>
 		                              </div>
 		                           </div>
 								   </Form>
 					</Col>
 					<Col></Col>
 					</Row>
+					{/* {this.state.messageM && (
+									<div className="form-group">
+										<span>&nbsp;&nbsp;</span>
+										<div
+										className={
+											this.state.successful
+											? "alert alert-success"
+											: "alert alert-danger"
+										}
+										role="alert"
+										>
+										{this.state.messageM}
+										</div>
+									</div>
+									)} */}
 					<span>&nbsp;&nbsp;</span>
 					<Alert variant="warning" dismissible role="alert">
 					Set up your <strong>card and bank info</strong> to get paid.
 		                  </Alert>
 	            
 			    </div>
+				): (
+					<div className='p-4 bg-white pb-2 shadow-sm'>
+					<Row>
+					   <Col md={12}>
+						  <h4 className="font-weight-bold mt-0 mb-3">Payout info</h4>
+					   </Col>
+					   </Row>
+	
+						{/* {this.state.messageM && (
+										<div className="form-group">
+											<span>&nbsp;&nbsp;</span>
+											<div
+											className={
+												this.state.successful
+												? "alert alert-success"
+												: "alert alert-danger"
+											}
+											role="alert"
+											>
+											{this.state.messageM}
+											</div>
+										</div>
+										)} */}
+						<span>&nbsp;&nbsp;</span>
+						<Alert variant="success" dismissible role="alert">
+						My Payment Account
+							  </Alert>
+					
+					</div>	
 				)}
 		    </>
     	);

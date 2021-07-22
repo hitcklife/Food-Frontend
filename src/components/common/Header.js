@@ -37,12 +37,11 @@ class Header extends React.Component {
 
 		// Custom
 		const user = AuthService.getCurrentUser();
-		console.log(user);
 		if (user) {
 			this.setState({
 			  currentUser: user,
 			});
-			if(user.user.type == 1){
+			if(user.user.type === 1){
 				this.setState({
 					showCompany: true,
 				  });
@@ -102,7 +101,7 @@ class Header extends React.Component {
 			            			title='My Account'
 									badgeClass='ml-1'
 			            			badgeVariant='danger'
-			            			badgeValue={'+6'}
+			            			badgeValue={+6}
 			            		/>
 			            	}
 			            >

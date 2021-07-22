@@ -7,7 +7,7 @@ import Orders from './myaccount/Orders';
 import Favourites from './myaccount/Favourites';
 import Payments from './myaccount/Payments';
 import Addresses from './myaccount/Addresses';
-import Info from './mycompany/Info';
+import Info from './myaccount/Info';
 import EditProfileModal from './modals/EditProfileModal';
 import AuthService from "../services/auth.service";
 
@@ -51,16 +51,7 @@ class MyAccount extends React.Component {
                        <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/profile"><i className="icofont-sale-discount"></i> Profile</NavLink>
                           </li>
-                          <li className="nav-item">
-                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/orders"><i className="icofont-food-cart"></i> Orders</NavLink>
-                          </li>
-                          <li className="nav-item">
-                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/favourites"><i className="icofont-facebook-messenger"></i> Messages</NavLink>
-                          </li>
-                          <li className="nav-item">
-                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/payments"><i className="icofont-credit-card"></i> Payments</NavLink>
-                          </li>
-                          {currentUser && (
+                          {currentUser.user.type === 1 && (
                               <div>
                            <li className="nav-item">
                               <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/company/info"><i className="icofont-bag-alt"></i> My Company</NavLink>
@@ -70,6 +61,15 @@ class MyAccount extends React.Component {
                            </li>
                               </div>
                                )}
+                          <li className="nav-item">
+                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/orders"><i className="icofont-food-cart"></i> Orders</NavLink>
+                          </li>
+                          <li className="nav-item">
+                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/favourites"><i className="icofont-facebook-messenger"></i> Messages</NavLink>
+                          </li>
+                          <li className="nav-item">
+                             <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/payments"><i className="icofont-credit-card"></i> Payments</NavLink>
+                          </li>
                           <li className="nav-item">
                              <NavLink className="nav-link" activeClassName="active" exact to="/myaccount/addresses"><i className="icofont-location-pin"></i> Help</NavLink>
                           </li>
@@ -86,7 +86,7 @@ class MyAccount extends React.Component {
                     <Route path="/myaccount/favourites" exact component={Favourites} />
                     <Route path="/myaccount/payments" exact component={Payments} />
                     <Route path="/myaccount/addresses" exact component={Addresses} />
-                    <Route path="/mycompany/info" exact component={Info} />
+                    <Route path="/myaccount/company/info" exact component={Info} />
                   </Switch>
                  </Col>
               </Row>

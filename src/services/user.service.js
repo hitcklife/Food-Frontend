@@ -17,7 +17,7 @@ class UserService {
   }
 
   postMerchant(){
-    return axios.post(API_URL + 'payment/create/connected/account', { headers: authHeader() });
+    return axios.post(API_URL + 'payment/create/connected/account', {}, { headers: authHeader() });
   }
 
   update(name, lname, street, apt, city, state, zip){
