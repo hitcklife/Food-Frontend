@@ -99,22 +99,22 @@ class Detail extends React.Component {
 		               <Col md={12}>
 		                  <span className="restaurant-detailed-action-btn float-right">
 		                     <Button variant='light' size='sm' className="border-light-btn mr-1" type="button"><Icofont icon="heart" className='text-danger' /> Mark as Favourite</Button>
-		                     <Button variant='light' size='sm' className="border-light-btn mr-1" type="button"><Icofont icon="cauli-flower" className='text-success' />  Pure Veg</Button>
-		                     <Button variant='outline-danger' size='sm' type="button"><Icofont icon="sale-discount" />  OFFERS</Button>
+		                     {/* <Button variant='light' size='sm' className="border-light-btn mr-1" type="button"><Icofont icon="cauli-flower" className='text-success' />  Pure Veg</Button> */}
+		                     <Button variant='outline-danger' size='sm' type="button"><Icofont icon="sale-discount" /> Add a product</Button>
 		                  </span>
 		                  <Nav  id="pills-tab">
 		                     <Nav.Item>
-		                        <Nav.Link eventKey="first">Order Online</Nav.Link>
+		                        <Nav.Link eventKey="first">Company Products</Nav.Link>
 		                     </Nav.Item>
-		                     <Nav.Item>
+		                     {/* <Nav.Item>
 		                        <Nav.Link eventKey="second">Gallery</Nav.Link>
-		                     </Nav.Item>
+		                     </Nav.Item> */}
 		                     <Nav.Item>
-		                        <Nav.Link eventKey="third">Restaurant Info</Nav.Link>
+		                        <Nav.Link eventKey="third">Company Info</Nav.Link>
 		                     </Nav.Item>
-		                     <Nav.Item>
+		                     {/* <Nav.Item>
 		                        <Nav.Link eventKey="fourth">Book A Table</Nav.Link>
-		                     </Nav.Item>
+		                     </Nav.Item> */}
 		                     <Nav.Item>
 		                        <Nav.Link eventKey="fifth">Ratings & Reviews</Nav.Link>
 		                     </Nav.Item>
